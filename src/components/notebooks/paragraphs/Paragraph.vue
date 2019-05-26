@@ -2,9 +2,11 @@
   <div v-on:click="setActive(paragraph)" :id="'paragraph-' + paragraph.id" class="paragraph-main">
     <div class="paragraph mb-3">
       <div class="paragraph-body">
-        <h5 v-if="!isHTML">{{paragraph.title}}</h5>
+        <h5 v-show="hasTitle">{{paragraph.title}}</h5>
         <Editor :paragraph="paragraph"/>
-        <Results :result="result" :paragraph="paragraph"/>
+        <div v-if="hasResults" class="results-multi">
+          <Results :key="index" v-for="(result, index) in getResults" :result="result" :index="index" :paragraph="paragraph"/>
+        </div>
       </div>
     </div>
     <AddParagraph :index="index"/>
@@ -26,7 +28,7 @@ export default {
   props: ['index', 'paragraph', 'note', 'setActive'],
   data () {
     return {
-      result: this.$props.paragraph.result
+
     }
   },
   computed: {
@@ -39,6 +41,29 @@ export default {
       }
 
       return false
+    },
+    hasTitle: function () {
+      if (!this.isHTML) {
+        return false
+      }
+
+      const {title} = this.$props.paragraph
+
+      if (title === '') {
+        return false
+      }
+
+      return true
+    },
+    hasResults: function () {
+      if (this.$props.paragraph.results) {
+        return true
+      }
+
+      return false
+    },
+    getResults: function () {
+      return this.$props.paragraph.results.msg
     }
   },
   methods: {
@@ -55,9 +80,10 @@ export default {
 
   .paragraph {
     padding: 10px;
+    border-left: 5px solid transparent;
   }
 
   .paragraph-main.active .paragraph {
-    box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(255, 255, 255, 0.4);
+    border-left-color: #3290ff;
   }
 </style>

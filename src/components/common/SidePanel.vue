@@ -1,6 +1,17 @@
 <template>
   <div class="side-panel">
-    <div class="header">
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <a class="nav-link active" href="#">Table of Content</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Files</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Versions</a>
+      </li>
+    </ul>
+    <!-- <div class="header">
       <ul class="list-unstyled list-inline mb-0">
         <li class="list-inline-item active">Paragraphs</li>
         <li class="list-inline-item">Resources</li>
@@ -13,7 +24,7 @@
         </div>
         <MiniParagraph :paragraph="paragraph"/>
       </div>
-    </draggable>
+    </draggable> -->
   </div>
 </template>
 
@@ -65,13 +76,35 @@ export default {
 
 <style scoped>
   .side-panel {
-    margin-top: 120px;
+    margin-top: 76px;
     background: #FFF;
     height: 100%;
     box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(255, 255, 255, 0.12), 0 2px 4px -1px rgba(255, 255, 255, 0.4);
     position: fixed;
     float: right;
     width: 23.5%;
+    border: 1px solid #dee2e6;
+  }
+
+  .nav-link {
+    border-color: #fff #dee2e6 #dee2e6 #fff;
+  }
+
+  .nav-link.active {
+    border-radius: 0;
+    border-color: #fff #dee2e6 #fff #fff;
+  }
+
+  .nav-tabs .nav-link:hover,
+  .nav-tabs .nav-link:focus {
+    border-radius: 0;
+    border-color: #fff #dee2e6 #dee2e6 #fff;
+  }
+
+  .nav-tabs .nav-link.active:hover,
+  .nav-tabs .nav-link.active:focus {
+    border-radius: 0;
+    border-color: #fff #dee2e6 #fff #fff;
   }
 
   .side-panel .header {

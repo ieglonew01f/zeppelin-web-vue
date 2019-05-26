@@ -51,7 +51,7 @@ export default {
 
 <style scoped>
   .notebook {
-    margin-top: 120px;
+    margin-top: 76px;
   }
 
   .paragraph-container {

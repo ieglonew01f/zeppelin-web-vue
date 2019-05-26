@@ -11,7 +11,7 @@
         <span class="right-controls float-right">
           <button v-on:click="connectSparkContext" type="button" class="btn btn-light btn-sm"><i data-feather="link-2"></i> Connect</button>
           <!-- <button type="button" class="btn btn-light btn-sm connected"><i data-feather="save"></i> Saving ...</button> -->
-          <button v-on:click="toggleNav" type="button" class="btn btn-light btn-sm"><i class="up" data-feather="chevron-up"></i><i class="down" data-feather="chevron-down"></i></button>
+          <button v-on:click="toggleNav" type="button" class="btn btn-light btn-sm"><i class="left" data-feather="chevron-left"></i><i class="down" data-feather="chevron-down"></i></button>
         </span>
       </div>
     </div>
@@ -115,7 +115,7 @@ export default {
   .toolbar {
     position: fixed;
     width: 100%;
-    margin-top: 66px;
+    margin-top: 33px;
     background: #f7f7f7;
     box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(255, 255, 255, 0.12), 0 2px 4px -1px rgba(255, 255, 255, 0.4);
     z-index: 999;
@@ -123,7 +123,7 @@ export default {
   }
 
   .controls-toolbar {
-    margin-left: 74px;
+    margin-left: 7px;
   }
 
   .controls-toolbar button {

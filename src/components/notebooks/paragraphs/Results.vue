@@ -7,12 +7,12 @@
       <table class="table table-sm">
         <thead>
           <tr>
-            <th :key="columnName.id" v-for="columnName in generateTableData.columnNames">{{columnName.name}}</th>
+            <th :key="columnName.index" v-for="columnName in generateTableData.columnNames">{{columnName.name}}</th>
           </tr>
         </thead>
         <tbody>
-          <tr :key="rowData.id" v-for="rowData in generateTableData.rows">
-            <td :key="row.id" v-for="row in rowData">{{row}}</td>
+          <tr :key="index" v-for="(row, index) in generateTableData.rows">
+            <td :key="index" v-for="(rowData, index) in row">{{rowData}}</td>
           </tr>
         </tbody>
       </table>
@@ -29,7 +29,7 @@ export default {
   components: {
 
   },
-  props: ['result', 'paragraph'],
+  props: ['result', 'index', 'paragraph'],
   data () {
     return {
       'chart': []
@@ -51,10 +51,8 @@ export default {
       return false
     },
     isText: function () {
-      const {id} = this.$props.paragraph
-      const paragraph = this.$store.getters.getParagraphById(id)
-
-      if (paragraph.result && paragraph.result.type.toLowerCase() === 'text') {
+      const {type} = this.$props.result
+      if (type.toLowerCase() === 'text') {
         return true
       }
 
@@ -71,20 +69,22 @@ export default {
       return false
     },
     isTable: function () {
-      const {id} = this.$props.paragraph
-      const paragraph = this.$store.getters.getParagraphById(id)
+      const {type} = this.$props.result
 
-      if (paragraph.result && paragraph.result.type.toLowerCase() === 'table' && paragraph.config.graph.mode.toLowerCase() === 'table') {
-        return true
+      if (type.toLowerCase() === 'table') {
+        const index = this.$props.index
+        const {graph} = this.$props.paragraph.config.results[index]
+
+        if (graph.mode.toLowerCase() === 'table') {
+          return true
+        }
       }
 
       return false
     },
     isHTML: function () {
-      const {id} = this.$props.paragraph
-      const paragraph = this.$store.getters.getParagraphById(id)
-
-      if (paragraph.result && paragraph.result.type.toLowerCase() === 'html') {
+      const {type} = this.$props.result
+      if (type.toLowerCase() === 'html') {
         return true
       }
 
@@ -101,93 +101,37 @@ export default {
       return false
     },
     getTextResult: function () {
-      const {id} = this.$props.paragraph
-      const paragraph = this.$store.getters.getParagraphById(id)
-
-      return paragraph.result.msg
-    },
-    getResultAndVersion: function () {
-      const {result, paragraph} = this.$props
-
-      let p = this.$store.getters.getParagraphById(paragraph.id)
-
-      let textRows = p.result.msg
-      let version = 'v0'
-
-      if (paragraph.version) {
-        if (paragraph.version === 'v1') {
-          try {
-            textRows = JSON.parse(result.msg)
-            version = 'v1'
-          } catch (err) {
-
-          }
-        }
-      }
-
-      return {
-        textRows: textRows,
-        version: version
-      }
+      const {data} = this.$props.result
+      return data
     },
     generateTableData: function () {
-      let result = this.$props.result
-      let resultVersion = this.getResultAndVersion
-      let version = resultVersion.version
-      let columnNames = []
-      let rows = []
-      let array = []
-      let textRows = resultVersion.textRows
-      let exceeded = -1
-      if (version === 'v0') {
-        textRows = textRows.split('\n')
-      } else {
-        exceeded = textRows.exceeded
-        textRows = textRows.data
-      }
-      result.comment = ''
-      let comment = false
+      const index = this.$props.index
+      const {graph} = this.$props.paragraph.config.results[index]
+      const {data} = this.$props.result
 
-      for (let i = 0; i < textRows.length; i++) {
-        let textRow = textRows[i]
-        if (comment) {
-          result.comment += textRow
-          continue
-        }
+      let colNames = []
 
-        if (textRow === '') {
-          if (rows.length > 0) {
-            comment = true
-          }
-          continue
-        }
-        let textCols = textRow
-        if (version === 'v0') {
-          textCols = textCols.split('\t')
-        }
-        let cols = []
-        let cols2 = []
-        for (let j = 0; j < textCols.length; j++) {
-          let col = textCols[j]
-          if (i === 0) {
-            columnNames.push({name: col, index: j, aggr: 'sum'})
-          } else {
-            cols.push(col)
-            cols2.push({
-              key: (columnNames[i]) ? columnNames[i].name : undefined, value: col
-            })
-          }
-        }
-        if (i !== 0) {
-          rows.push(cols)
-          array.push(cols2)
-        }
+      colNames = graph.keys
+
+      // process column names
+      for (let i = 0; i < graph.values.length; i++) {
+        colNames.push(graph.values[i])
       }
-      result.msgTable = array
-      result.exceeded = exceeded
-      result.columnNames = columnNames
-      result.rows = rows
-      return result
+
+      // now process table results
+      let rows = data.split('\n')
+      let rowData = []
+
+      for (let j = 0; j < rows.length; j++) {
+        rowData.push(rows[j].split('\t'))
+      }
+
+      console.log(rowData)
+
+      return {
+        columnNames: colNames,
+        rows: rowData
+      }
     }
   },
   methods: {

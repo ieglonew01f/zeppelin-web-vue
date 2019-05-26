@@ -2,14 +2,8 @@
     <nav class="navbar fixed-top p-0">
       <div class="container-fluid">
         <div class="row">
-          <div class="col-3 p-0">
-            <div class="logo">
-              <img src="https://ds41rkl0xxdko.cloudfront.net/assets/v2/qubole-icon-qu.svg"/>
-            </div>
-          </div>
-          <div class="col-9 p-0">
+          <div class="col-12 p-0">
             <div class="controls-nb">
-              <h5 class="mb-1">Welcome To Notebooks</h5>
               <div class="btn-group nb-menu" role="group">
                 <div class="btn-group" role="group">
                   <button type="button" class="btn btn-secondary btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -179,19 +173,33 @@ export default {
     padding: 0 10px;
     color: #212428;
     border-radius: 0;
-    border: 1px solid transparent;
+    border: 1px solid transparent !important;
+    transition: none !important;
+    margin-right: 1px;
+    bottom: 5px;
   }
 
   nav button:hover,
   nav button:active,
   nav button:focus {
-    box-shadow: none;
+    background: #FFF !important;
+    color: inherit !important;
+    box-shadow: none !important;
+    border: 1px solid transparent !important;
   }
 
-  nav button:focus {
-    box-shadow: none;
-    background: #0a6da9;
-    color: #FFF;
+  nav .btn-group.show button {
+    border: 1px solid #bdbdbd !important;
+    border-bottom-color: transparent !important;
+    z-index: 1001;
+  }
+
+  nav .btn-group.show button:hover,
+  nav .btn-group.show button:focus,
+  nav .btn-group.show button:active {
+    border: 1px solid #bdbdbd !important;
+    border-bottom-color: transparent !important;
+    z-index: 1001 !important;
   }
 
   nav h5 {
@@ -200,14 +208,15 @@ export default {
   }
 
   nav .controls-nb {
-    margin: 10px 0 0 5px;
+    margin: 5px 0 0 5px;
   }
 
   nav .nb-menu .dropdown-menu {
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-    transition: opacity 0.218s;
+    border: 1px solid #bdbdbd !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2) !important;
+    transition: none !important;
     border-radius: 0;
-    border: 0;
+    top: 62% !important;
   }
 
   nav .nb-menu .dropdown-item {
