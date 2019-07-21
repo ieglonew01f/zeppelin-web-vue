@@ -105,15 +105,21 @@ export default {
         let data = payload.data
 
         switch (op) {
+          // notebook
+          case 'NEW_NOTE':
+            window.open(`/notebook/${data.note.id}`, '_blank')
+            break
           case 'NOTE':
             _this.$store.dispatch('setNotebookContent', data)
             break
+          // paragraph
           case 'PARAGRAPH':
             _this.$store.dispatch('setParagraph', data)
             break
           case 'PARAGRAPH_ADDED':
             _this.$store.dispatch('setParagraph', data)
             break
+          // interpreter
           case 'INTERPRETER_STATUS':
             console.log(data)
             break

@@ -10,7 +10,7 @@
                     File
                   </button>
                   <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#">New Notebook</a>
+                    <a class="dropdown-item" v-on:click="createNote()" href="javascript:void(0)">New Notebook</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="#">Open Notebook</a>
                     <a class="dropdown-item" href="#">Upload Notebook</a>
@@ -145,6 +145,12 @@ export default {
       for (let i = 0; i < paragraphs.length; i++) {
         websocketEvents.sendNewEvent({op: 'PARAGRAPH_CLEAR_OUTPUT', data: {id: paragraphs[i].id}})
       }
+    },
+
+    createNote: function () {
+      // TODO(kuckjwi): need a define defalut interpreter id and note name.
+      const websocketEvents = this.getWebSocketObject()
+      websocketEvents.sendNewEvent({op: 'NEW_NOTE', data: {name: 'Untitled Note', defaultInterpreterId: ''}})
     }
   }
 }
