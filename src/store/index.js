@@ -6,6 +6,7 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
+    notebooks: null,
     notebook: null,
     paragraphs: null,
     nav: {
@@ -14,6 +15,9 @@ const store = new Vuex.Store({
     activeParagraph: null
   },
   getters: {
+    getAllNotebooks: (state) => {
+      return state.notebooks
+    },
     getActiveParagraph: (state) => {
       return state.activeParagraph
     },
@@ -53,6 +57,9 @@ const store = new Vuex.Store({
     },
     mutateNavBar (state, data) {
       state.nav = data
+    },
+    mutateNotes (state, data) {
+      state.notebooks = data.notes
     },
     mutateNotebook (state, data) {
       let note = data.note
@@ -130,6 +137,9 @@ const store = new Vuex.Store({
     },
     setNavBar (context, data) {
       context.commit('mutateNavBar', data)
+    },
+    setNoteMenu (context, data) {
+      context.commit('mutateNotes', data)
     },
     setNotebookContent (context, data) {
       context.commit('mutateNotebook', data)

@@ -84,6 +84,7 @@ export default {
           return
         }
 
+        websocketCalls.sendNewEvent({op: 'LIST_NOTES'})
         websocketCalls.sendNewEvent({
           op: 'GET_NOTE',
           data: {
@@ -108,6 +109,9 @@ export default {
           // notebook
           case 'NEW_NOTE':
             window.open(`/notebook/${data.note.id}`, '_blank')
+            break
+          case 'NOTES_INFO':
+            _this.$store.dispatch('setNoteMenu', data)
             break
           case 'NOTE':
             _this.$store.dispatch('setNotebookContent', data)
