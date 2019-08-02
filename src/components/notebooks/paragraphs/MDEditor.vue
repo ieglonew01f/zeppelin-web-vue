@@ -107,11 +107,24 @@ export default {
     EditorContent,
     EditorMenuBar
   },
-  props: ['content', 'onMdUpdate', 'setMDParagraph'],
+  props: ['content', 'onMdUpdate', 'setMDParagraph', 'forceEditorShow'],
   data () {
     return {
       editor: null
     }
+  },
+  methods: {
+    // setMDParagraph: function () {
+    //   let {id} = this.$props.paragraph
+    //   let paragraph = this.$store.getters.getParagraphById(id)
+
+    //   const {id} = this.$props.paragraph
+    //   const paragraph = this.$store.getters.getParagraphById(id)
+
+    //   if (paragraph && paragraph.forceEditorShow) {
+    //     return true
+    //   }
+    // }
   },
   mounted () {
     let _this = this
@@ -137,11 +150,30 @@ export default {
         new History()
       ],
       content: this.$props.content,
-      onBlur: function () {
-        _this.$props.setMDParagraph()
-      },
       onUpdate: function (cb) {
         _this.$props.onMdUpdate(cb.getHTML())
+      }
+    })
+
+    document.addEventListener('mousedown', event => {
+      let target = event.target
+      if (
+        target.parentElement &&
+        (target.parentElement.className ===
+          'md-editor-inner' ||
+          target.parentElement.className === 'menubar' ||
+          target.parentElement.className === 'menubar__button' ||
+          target.parentElement.className === 'ProseMirror' ||
+          target.parentElement.className === 'ProseMirror ProseMirror-focused' ||
+          target.parentElement.className === 'editor__content')
+      ) {
+        // if clicked inside do nothing
+      } else {
+        // clicked outside the md editor
+        // save the content
+        if (this.$props.forceEditorShow) {
+          this.$props.setMDParagraph()
+        }
       }
     })
   },

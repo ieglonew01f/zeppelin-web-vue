@@ -1,7 +1,7 @@
 <template>
   <div v-show="!isOutputHidden" class="results mt-4">
     <pre v-if="isText" class="text-paragraph">{{getTextResult}}</pre>
-    <div v-if="isHTML && !isForceEditorShow" v-on:dblclick="showMdEditor()" class="md-paragraph" v-html="getTextResult"></div>
+    <div v-if="isHTML && !isForceEditorShow" v-on:dblclick="dbClickMdPara()" class="md-paragraph" v-html="getTextResult"></div>
     <div v-if="isGraph" :id="'chart-container-' + paragraph.id"><svg :id="'svg-' + paragraph.id"></svg></div>
     <div v-if="isTable" class="table-results">
       <table class="table table-sm">
@@ -101,8 +101,16 @@ export default {
       return false
     },
     getTextResult: function () {
-      const {data} = this.$props.result
-      return data
+      const {id} = this.$props.paragraph
+      const paragraph = this.$store.getters.getParagraphById(id)
+      let newResult = paragraph.results.msg[0].data
+
+      // trim %md
+      if (this.isHTML) {
+        newResult = newResult.replace('<p>%md</p>', '')
+      }
+
+      return newResult
     },
     generateTableData: function () {
       const index = this.$props.index
@@ -824,7 +832,7 @@ export default {
 
       renderChart(this.$props.paragraph, this.chart)
     },
-    showMdEditor: function () {
+    dbClickMdPara: function () {
       const {id} = this.$props.paragraph
 
       this.$store.dispatch('setParagraphProp', {

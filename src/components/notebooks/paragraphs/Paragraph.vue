@@ -3,7 +3,7 @@
     <div class="paragraph mb-3">
       <div class="paragraph-body">
         <h5 v-show="hasTitle">{{paragraph.title}}</h5>
-        <Editor :paragraph="paragraph"/>
+        <Editor :paragraph="paragraph" :isMdEditorVisible="isMdEditorVisible" />
         <div v-if="hasResults" class="results-multi">
           <Results :key="index" v-for="(result, index) in getResults" :result="result" :index="index" :paragraph="paragraph"/>
         </div>
@@ -28,7 +28,7 @@ export default {
   props: ['index', 'paragraph', 'note', 'setActive'],
   data () {
     return {
-
+      isMdEditorVisible: false
     }
   },
   computed: {

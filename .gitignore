@@ -15,3 +15,7 @@ selenium-debug.log
 *.ntvs*
 *.njsproj
 *.sln
+.classpath
+.project
+.settings/**
+node

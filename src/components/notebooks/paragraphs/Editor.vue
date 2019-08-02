@@ -4,7 +4,7 @@
       <div class="row">
         <div class="col-6 br pr-0">
           <!-- <textarea class="md-editor-textarea" :value="mdValue" @input="update" v-on:blur="setMDParagraph"></textarea> -->
-          <MDEditor :content="compiledMarkdown" :onMdUpdate="onMdUpdate" :setMDParagraph="setMDParagraph"/>
+          <MDEditor :forceEditorShow="forceEditorShow" :content="compiledMarkdown" :onMdUpdate="onMdUpdate" :setMDParagraph="setMDParagraph"/>
         </div>
         <div class="col-6">
           <div class="md-op" v-html="compiledMarkdown"></div>
@@ -138,34 +138,35 @@ export default {
     setMDParagraph: function () {
       let {id} = this.$props.paragraph
       let paragraph = this.$store.getters.getParagraphById(id)
+      let mdValue = this.mdValue
 
-      // append md marker back
-      // before saving
-      let mdValue = '%md\n' + this.mdValue
+      if (paragraph &&
+        paragraph.results &&
+        paragraph.results.msg &&
+        paragraph.results.msg[0]) {
+        paragraph.results.msg[0].data = mdValue
 
-      paragraph.text = mdValue
-      this.content = mdValue
-
-      // if its empty then delete the md paragraph
-      if (mdValue === '' || mdValue.trim() === '%md') {
-        this.removeParagraph()
-        return
-      }
-
-      this.$store.dispatch('setParagraph', {
-        paragraph: paragraph
-      })
-
-      this.$store.dispatch('setParagraphProp', {
-        id: id,
-        prop: {
-          name: 'forceEditorShow',
-          value: false
+        // if its empty then delete the md paragraph
+        if (mdValue === '' || mdValue.trim() === '%md') {
+          this.removeParagraph()
+          return
         }
-      })
 
-      // run paragraph to presist
-      this.runParagraph()
+        this.$store.dispatch('setParagraph', {
+          paragraph: paragraph
+        })
+
+        this.$store.dispatch('setParagraphProp', {
+          id: id,
+          prop: {
+            name: 'forceEditorShow',
+            value: false
+          }
+        })
+
+        // run paragraph to presist
+        this.runParagraph()
+      }
     },
     editorInit: function (editor) {
       require('brace/ext/language_tools')
@@ -183,6 +184,14 @@ export default {
     runParagraph: function () {
       let {id, title, config, settings} = this.$props.paragraph
       let paragraphText = this.content
+
+      // append md marker back
+      // before saving
+      // for md para
+      if (this.hideEditor) {
+        paragraphText = '%md\n' + this.mdValue
+      }
+
       let websocketEvents = this.getWebSocketObject()
 
       websocketEvents.sendNewEvent({

@@ -110,11 +110,11 @@ const store = new Vuex.Store({
     },
     mutateParagraphsWithNewProps (state, data) {
       let id = data.id
-      let index = state.paragraphs.map(function (p) { return p.id }).indexOf(id)
+      // let index = state.paragraphs.map(function (p) { return p.id }).indexOf(id)
       let paragraph = state.paragraphs.find(p => p.id === id)
 
       Vue.set(paragraph, data.prop.name, data.prop.value)
-      Vue.set(state.paragraphs, index, paragraph)
+      // Vue.set(state.paragraphs, index, paragraph)
     },
     moveParagraph (state, data) {
       let newIndex = data.newIndex
@@ -126,6 +126,24 @@ const store = new Vuex.Store({
       paragraphs.splice(newIndex, 0, data.paragraph)
 
       state.paragraphs = paragraphs
+    },
+    setParagraphOutput (state, data) {
+      let paraId = data.paragraphId
+      let paragraph = state.paragraphs.find(p => p.id === paraId)
+      // let paraIndex = state.paragraphs.map(function (p) { return p.id }).indexOf(paraId)
+
+      if (paragraph.results) {
+        paragraph.results.msg[0].data = data.data
+      } else {
+        Vue.set(paragraph, 'results', {
+          msg: [
+            {
+              data: data.data,
+              type: 'TEXT'
+            }
+          ]
+        })
+      }
     }
   },
   actions: {
@@ -149,6 +167,9 @@ const store = new Vuex.Store({
     },
     setParagraph (context, data) {
       context.commit('mutateParagraphs', data)
+    },
+    setParagraphOutput (context, data) {
+      context.commit('setParagraphOutput', data)
     },
     setParagraphProp (context, data) {
       context.commit('mutateParagraphsWithNewProps', data)

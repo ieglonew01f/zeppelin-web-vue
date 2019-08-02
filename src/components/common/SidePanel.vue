@@ -2,21 +2,15 @@
   <div class="side-panel">
     <ul class="nav nav-tabs">
       <li class="nav-item">
-        <a class="nav-link active" href="#">Table of Content</a>
+        <a class="nav-link active" href="#">Paragraphs</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Files</a>
+        <a class="nav-link" href="#">Table of Content</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#">Versions</a>
       </li>
     </ul>
-    <!-- <div class="header">
-      <ul class="list-unstyled list-inline mb-0">
-        <li class="list-inline-item active">Paragraphs</li>
-        <li class="list-inline-item">Resources</li>
-      </ul>
-    </div>
     <draggable v-model="paragraphs" draggable=".mini-paragraph" class="item-list">
       <div v-bind:key="paragraph.id" v-for="paragraph in paragraphs" class="mini-paragraph">
         <div v-if="getParagraphLoading(paragraph)" class="progress">
@@ -24,7 +18,7 @@
         </div>
         <MiniParagraph :paragraph="paragraph"/>
       </div>
-    </draggable> -->
+    </draggable>
   </div>
 </template>
 

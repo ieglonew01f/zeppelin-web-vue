@@ -118,7 +118,13 @@ export default {
             break
           // paragraph
           case 'PARAGRAPH':
-            _this.$store.dispatch('setParagraph', data)
+            // we are already updating the local copy
+            // of paragraphs so do not update again from
+            // websockets
+            // _this.$store.dispatch('setParagraph', data)
+            break
+          case 'PARAGRAPH_APPEND_OUTPUT':
+            _this.$store.dispatch('setParagraphOutput', data)
             break
           case 'PARAGRAPH_ADDED':
             _this.$store.dispatch('setParagraph', data)
