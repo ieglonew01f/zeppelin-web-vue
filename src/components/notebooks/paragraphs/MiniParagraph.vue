@@ -91,6 +91,7 @@ export default {
     cursor: pointer;
     display: inline-block;
     width: 100%;
+    padding: 5px 5px;
   }
 
   .text-title {

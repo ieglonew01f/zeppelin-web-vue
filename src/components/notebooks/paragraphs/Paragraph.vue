@@ -79,7 +79,7 @@ export default {
   }
 
   .paragraph {
-    padding: 10px;
+    padding: 0 10px;
     border-left: 5px solid transparent;
   }
 
