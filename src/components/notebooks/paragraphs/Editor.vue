@@ -120,7 +120,11 @@ export default {
       const {id} = this.$props.paragraph
       const paragraph = this.$store.getters.getParagraphById(id)
 
-      if (paragraph && paragraph.result && paragraph.result.type.toLowerCase() === 'html') {
+      if (paragraph &&
+      paragraph.results &&
+      paragraph.results.msg &&
+      paragraph.results.msg[0] &&
+      paragraph.results.msg[0].type.toLowerCase() === 'html') {
         return true
       }
 

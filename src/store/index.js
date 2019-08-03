@@ -98,9 +98,10 @@ const store = new Vuex.Store({
       // is adding paragraph
 
       if (!paragraph && data.index) {
-        let paragraphs = state.paragraphs
-        paragraphs.splice(data.index, 0, data.paragraph)
-        state.paragraphs = paragraphs
+        // let paragraphs = state.paragraphs
+        // paragraphs.splice(data.index, 0, data.paragraph)
+        // state.paragraphs = paragraphs
+        Vue.set(state.paragraphs, data.index, data.paragraph)
         return
       }
 
@@ -190,10 +191,17 @@ const store = new Vuex.Store({
       }
 
       if (data.isMd) {
-        paragraph.text = '%md'
+        paragraph.config.editorHide = true
+        paragraph.text = '%md\n'
         paragraph.forceEditorShow = true
-        paragraph.result = {
-          type: 'HTML'
+        paragraph.results = {
+          code: 'SUCCESS',
+          msg: [
+            {
+              data: paragraph.text,
+              type: 'HTML'
+            }
+          ]
         }
       }
 

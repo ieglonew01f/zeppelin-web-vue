@@ -7,9 +7,6 @@
       <li class="nav-item">
         <a class="nav-link" v-bind:class="{ active: activeTab === 'toc' }" v-on:click="sideTabClick('toc')" href="javascript:void(0)">Table of Content</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" v-bind:class="{ active: activeTab === 'versions' }" v-on:click="sideTabClick('versions')" href="javascript:void(0)">Versions</a>
-      </li>
     </ul>
     <draggable v-show="activeTab === 'paragraphs'" v-model="paragraphs" draggable=".mini-paragraph" class="item-list">
       <div v-bind:key="paragraph.id" v-for="paragraph in paragraphs" class="mini-paragraph">
