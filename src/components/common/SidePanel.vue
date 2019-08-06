@@ -105,7 +105,7 @@ export default {
 
       window.$([document.documentElement, document.body]).animate({
         scrollTop: window.$(tags[index]).offset().top - 70
-      }, 0)
+      }, 100)
     }
   },
   mounted: function () {
