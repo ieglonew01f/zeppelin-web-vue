@@ -2,6 +2,9 @@
 
 > This project is an attempt to rebuild the existing zeppelin web application in VueJs 2.0, Curently this project is in pre alpha stage.
 
+# NOTICE: This Project is now moved to
+https://github.com/malayhm/zeppelin-studio
+
 ## List of features/modules in progress stage
 
 - Notebooks
